@@ -1,0 +1,36 @@
+{
+  "name": "qqagent-skill-mcbot",
+  "version": "1.1.0",
+  "description": "QQ Agent 技能：让你的 QQ 机器人在 Minecraft 里拥有一个独立分身——自动加入局域网世界、自己玩、QQ 与游戏聊天双向指挥，闲逛与 !命令 全程零 token。",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "keywords": [
+    "qq-agent",
+    "skill",
+    "minecraft",
+    "mineflayer",
+    "bot",
+    "llm",
+    "agent"
+  ],
+  "files": [
+    "skill",
+    "scripts",
+    "docs",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "check": "node --check skill/index.js && node --check skill/host.js",
+    "test": "node scripts/selfcheck.mjs",
+    "install-skill": "node scripts/install.mjs"
+  },
+  "dependencies": {
+    "mineflayer": "^4.39.0",
+    "mineflayer-pathfinder": "^2.4.5",
+    "vec3": "^0.1.10"
+  }
+}

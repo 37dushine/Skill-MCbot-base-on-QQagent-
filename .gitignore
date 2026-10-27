@@ -1,0 +1,17 @@
+# 依赖 / 构建产物
+node_modules/
+dist/
+*.tgz
+
+# 安装脚本生成的备份
+.mc-bot-backup/
+
+# 运行时产物
+*.log
+logs/
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

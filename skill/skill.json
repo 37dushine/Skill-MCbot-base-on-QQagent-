@@ -1,0 +1,161 @@
+{
+  "id": "mc-bot",
+  "name": "我的世界分身（MC Bot）",
+  "version": "1.1.0",
+  "apiVersion": 1,
+  "category": "utility",
+  "author": "MC Bot Contributors",
+  "entry": "index.js",
+  "permissions": [],
+  "enabledByDefault": true,
+  "description": "让机器人在 Minecraft 里拥有一个独立玩家分身：主机用 PCL 开的单机世界（对局域网开放）会被自动发现并加入，联机服务器填地址即可；分身平时在游戏里自己玩（自己走动、张望、探索村庄、躲怪、捡东西，零 token），QQ 群里用自然语言、游戏聊天框里用 !命令 或叫它的名字都能指挥它，两边聊天互通。",
+  "capabilities": [
+    "status.mc-bot"
+  ],
+  "requires": [],
+  "settings": {
+    "username": "",
+    "host": "",
+    "port": 25565,
+    "version": "",
+    "autoConnect": false,
+    "lanAutoJoin": true,
+    "autoRejoin": true,
+    "rejoinDelaySec": 15,
+    "autoExplore": true,
+    "exploreIntervalSec": 12,
+    "exploreRange": 48,
+    "exploreDig": false,
+    "autoGather": false,
+    "autoChatter": true,
+    "autoReport": false,
+    "chatMonitor": "mentions",
+    "relayToQQ": false,
+    "qqGroup": "",
+    "mcCommands": true,
+    "notifyEvents": true
+  },
+  "configSchema": {
+    "username": {
+      "type": "string",
+      "label": "游戏内名字",
+      "description": "分身在 MC 里显示的玩家名，最长 16 字。留空 = 用机器人的人设名。改名字要重新连接才生效。"
+    },
+    "host": {
+      "type": "string",
+      "label": "联机服务器地址",
+      "description": "要常驻的联机服务器 IP 或域名（不含端口）。留空 = 只靠局域网自动加入 / 每次让机器人临时填地址。注意：开启正版验证的服务器进不去（分身是离线身份）。"
+    },
+    "port": {
+      "type": "number",
+      "label": "服务器端口",
+      "description": "默认 25565。联机地址的端口；单机局域网世界不用填（会自动发现）。"
+    },
+    "version": {
+      "type": "string",
+      "label": "MC 版本",
+      "description": "如 1.20.4。留空 = 自动探测（推荐）。填错版本会连不上。"
+    },
+    "autoConnect": {
+      "type": "boolean",
+      "label": "启动时自动连服务器",
+      "description": "默认关。开启后 QQ Agent 一启动就自动连上面填的联机地址。"
+    },
+    "lanAutoJoin": {
+      "type": "boolean",
+      "label": "自动加入局域网世界",
+      "description": "默认开。主机用 PCL 启动游戏并「对局域网开放」后，分身会在几秒内自动进那个世界（不需要任何操作）。主机关世界后分身自动退场，等下一次开放。"
+    },
+    "autoRejoin": {
+      "type": "boolean",
+      "label": "联机掉线自动重连",
+      "description": "默认开。只对联机服务器生效；局域网世界不重连（等主机重新开放）。"
+    },
+    "rejoinDelaySec": {
+      "type": "number",
+      "label": "重连等待（秒）",
+      "description": "默认 15。掉线后等多久再连。5~600。",
+      "min": 5,
+      "max": 600
+    },
+    "autoExplore": {
+      "type": "boolean",
+      "label": "让它自己去玩",
+      "description": "默认开，零 token。空闲时它自己决定干什么：到处走走、原地张望、小跑一段、看到玩家凑过去看看、发现村庄/营地过去探索、捡地上的掉落物、走近观察动物，遇到怪物主动拉开距离。赶路 / 跟随 / 收到停指令时自动暂停。"
+    },
+    "exploreIntervalSec": {
+      "type": "number",
+      "label": "自主行动间隔（秒）",
+      "description": "默认 12。每隔多久看一次自己闲不闲，闲就找件事做。调大更从容，调小更活泼（最小 5 秒）。",
+      "min": 5,
+      "max": 600
+    },
+    "exploreRange": {
+      "type": "number",
+      "label": "探索半径（格）",
+      "description": "默认 48。每次闲逛最多离开当前位置多远，防止越走越远回不来。16~256。",
+      "min": 16,
+      "max": 256
+    },
+    "exploreDig": {
+      "type": "boolean",
+      "label": "自己玩时允许挖穿挡路方块",
+      "description": "默认关（强烈建议保持）。开了以后它闲逛被地形挡住时会直接挖穿过去——在别人的世界/服务器上等于破坏地形。注意与「砍树采集」是两件事：这个管的是「开路」，那个管的是「主动采木头」。"
+    },
+    "autoGather": {
+      "type": "boolean",
+      "label": "自己玩时允许砍树采集",
+      "description": "默认关。开了以后它闲逛时看到树会走过去砍一块木头（一次只砍一个，不会剃光整片林子）。⚠️ 这是它唯一会主动改变世界的自主行为——在别人的世界或服务器上开着等于动人家的东西，不确定就别开。"
+    },
+    "autoChatter": {
+      "type": "boolean",
+      "label": "偶尔自言自语",
+      "description": "默认开，零 token。用预设台词在游戏聊天框里偶尔说一句（如「这片地方看着还行」），让它显得真的在玩、不是木桩。限频很严：最少间隔 60 秒、每小时最多 3 句、只有约五分之一的机会真开口。"
+    },
+    "autoReport": {
+      "type": "boolean",
+      "label": "有意思的事主动说一声",
+      "description": "默认关，零 token。发现玩家、发现村庄/营地、被怪物逼退时，主动往绑定的 QQ 群报一声。限频：最少间隔 2 分钟、每小时最多 6 条。开着的话群里会更热闹，但也更容易被打扰。"
+    },
+    "chatMonitor": {
+      "type": "enum",
+      "values": [
+        "mentions",
+        "all",
+        "off"
+      ],
+      "label": "游戏聊天监听",
+      "description": "mentions（默认）= 只把「叫它名字」的游戏聊天带进 QQ（会唤醒它动脑，其它聊天零 token 不理）；all = 所有游戏聊天都记录（只有叫名字的才唤醒，其余仅作背景）；off = 完全不监听。"
+    },
+    "relayToQQ": {
+      "type": "boolean",
+      "label": "游戏聊天镜像到 QQ 群",
+      "description": "默认关。开启后游戏里其他人说的话会直接转发到绑定的 QQ 群（确定性转发，零 token）。与「聊天监听」独立：监听是让它听懂并回应，镜像是原样搬过去。"
+    },
+    "qqGroup": {
+      "type": "string",
+      "label": "绑定的 QQ 群号",
+      "description": "游戏聊天互通 / 上线下线通知发到哪个群。留空 = 自动绑定「第一次让它上线」时它所在的群（推荐）。"
+    },
+    "mcCommands": {
+      "type": "boolean",
+      "label": "游戏内 ! 命令",
+      "description": "默认开。玩家在游戏聊天框发 !来 / !跟随 / !停 / !状态 直接指挥分身，即时响应且零 token。"
+    },
+    "notifyEvents": {
+      "type": "boolean",
+      "label": "上下线/死亡通知 QQ 群",
+      "description": "默认开。分身进游戏、掉线、死亡时往绑定的群发一条短通知（确定性，零 token）。"
+    }
+  },
+  "prompt": {
+    "sections": [
+      {
+        "id": "mc-bot-note",
+        "title": "我的世界分身",
+        "priority": 36,
+        "content": "你有一个 Minecraft（我的世界）游戏里的分身，相关工具：mc_control（上线/下线/查状态）、mc_observe（观察）、mc_chat（在游戏里说话）、mc_cmd（执行游戏指令）、mc_move（移动/跟随）、mc_dig、mc_place、mc_inventory。群里让你「进游戏」「去MC里」时先用 mc_control connect——不填地址时会找主机开放的世界或连设置里配置的服务器；玩家在游戏聊天框叫你名字时，消息会出现在群里（名字带「MC·」前缀的就是游戏里的玩家）。你在游戏里说话必须用 mc_chat，直接往群里发消息游戏里的人看不到。了解游戏内情况先 mc_observe（已包含位置、血量、玩家、怪物、背包摘要），不要反复查。移动是异步的：下达后先简短回应，过一会儿再用 mc_observe 确认是否到达。它平时会自己玩（自己走动、张望、探索村庄、躲怪、捡东西，不花 token），mc_observe 里带「最近见闻」——有人问它「你刚才在干嘛」「看到什么了」就直接照见闻回答，不要自己编。没必要时别频繁打断它的自主行动。"
+      }
+    ]
+  }
+}
