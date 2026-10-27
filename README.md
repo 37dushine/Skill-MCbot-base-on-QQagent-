@@ -2,6 +2,7 @@
 
 > 给你的 QQ 机器人一个**独立的 Minecraft 玩家分身**：主机开的世界它自己进来，平时自己玩，QQ 群和游戏聊天框都能指挥它——而**它自己玩的时候一个 token 都不花**。
 
+[![CI](https://github.com/37dushine/qqagent-skill-mcbot/actions/workflows/ci.yml/badge.svg)](https://github.com/37dushine/qqagent-skill-mcbot/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-brightgreen.svg)](https://nodejs.org)
 [![QQ Agent Skill](https://img.shields.io/badge/QQ%20Agent-skill-8a2be2.svg)](#安装)
@@ -48,7 +49,7 @@ QQ 群 ──自然语言──┐
 ### 方式一：脚本
 
 ```bash
-git clone https://github.com/<you>/qqagent-skill-mcbot.git
+git clone https://github.com/37dushine/qqagent-skill-mcbot.git
 cd qqagent-skill-mcbot
 node scripts/install.mjs --app "<QQ Agent 安装目录>/resources/app"
 ```
